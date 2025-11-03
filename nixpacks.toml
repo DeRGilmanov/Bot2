@@ -1,9 +1,12 @@
 [phases.setup]
 cmds = [
     "apt-get update",
-    "apt-get install -y ffmpeg",
-    "pip install -r requirements.txt"
+    "apt-get install -y python3 python3-pip ffmpeg",
+    "pip3 install -r requirements.txt"
 ]
 
+[phases.install]
+cmds = ["pip3 install -r requirements.txt"]
+
 [start]
-cmd = "python app.py"
+cmd = "python3 app.py"
