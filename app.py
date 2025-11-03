@@ -48,8 +48,8 @@ import tempfile
 import subprocess
 
 # Импорты для обработки медиа
-import speech_recognition as sr
-import easyocr
+#import speech_recognition as sr
+#import easyocr
 from pydub import AudioSegment
 
 from telegram import Update
@@ -77,7 +77,8 @@ load_dotenv()
 
 # Инициализация EasyOCR для русского и английского языков
 try:
-    reader = easyocr.Reader(['ru', 'en'])
+    #reader = easyocr.Reader(['ru', 'en'])
+    reader = None
     logger.info("EasyOCR успешно инициализирован")
 except Exception as e:
     logger.error(f"Ошибка инициализации EasyOCR: {e}")
@@ -89,27 +90,27 @@ class MediaProcessor:
     @staticmethod
     def extract_text_from_image(image_path: str) -> str:
         """Извлекает текст с изображения с помощью EasyOCR"""
-        try:
-            if reader is None:
-                return "Ошибка: OCR не инициализирован"
+        # try:
+        #     if reader is None:
+        #         return "Ошибка: OCR не инициализирован"
                 
-            logger.info("Начало распознавания текста с изображения")
+        #     logger.info("Начало распознавания текста с изображения")
             
-            # Распознаем текст
-            results = reader.readtext(image_path)
+        #     # Распознаем текст
+        #     results = reader.readtext(image_path)
             
-            if not results:
-                return "Текст на изображении не обнаружен"
+        #     if not results:
+        #         return "Текст на изображении не обнаружен"
             
-            # Объединяем все распознанные тексты
-            text = '\n'.join([result[1] for result in results])
-            logger.info(f"Распознанный текст: {text[:100]}...")
+        #     # Объединяем все распознанные тексты
+        #     text = '\n'.join([result[1] for result in results])
+        #     logger.info(f"Распознанный текст: {text[:100]}...")
             
-            return text
+        #     return text
             
-        except Exception as e:
-            logger.error(f"Ошибка при распознавании текста: {e}")
-            return f"Ошибка при распознавании текста: {str(e)}"
+        # except Exception as e:
+        #     logger.error(f"Ошибка при распознавании текста: {e}")
+        #     return f"Ошибка при распознавании текста: {str(e)}"
     
     @staticmethod
     def convert_audio_ogg_to_wav(ogg_path: str, wav_path: str) -> bool:
@@ -155,25 +156,25 @@ class MediaProcessor:
     @staticmethod
     def transcribe_audio(audio_path: str) -> str:
         """Транскрибирует аудио в текст"""
-        try:
-            r = sr.Recognizer()
-            with sr.AudioFile(audio_path) as source:
-                r.adjust_for_ambient_noise(source, duration=0.5)
-                audio = r.record(source)
+        # try:
+        #     r = sr.Recognizer()
+        #     with sr.AudioFile(audio_path) as source:
+        #         r.adjust_for_ambient_noise(source, duration=0.5)
+        #         audio = r.record(source)
             
-            text = r.recognize_google(audio, language="ru-RU")
-            logger.info(f"Распознанная речь: {text}")
-            return text
+        #     text = r.recognize_google(audio, language="ru-RU")
+        #     logger.info(f"Распознанная речь: {text}")
+        #     return text
             
-        except sr.UnknownValueError:
-            logger.error("Не удалось распознать речь")
-            return "Не удалось распознать речь. Попробуйте говорить четче и громче."
-        except sr.RequestError as e:
-            logger.error(f"Ошибка сервиса распознавания речи: {e}")
-            return "Ошибка сервиса распознавания речи. Проверьте подключение к интернету."
-        except Exception as e:
-            logger.error(f"Ошибка транскрибации аудио: {e}")
-            return f"Ошибка обработки аудио: {str(e)}"
+        # except sr.UnknownValueError:
+        #     logger.error("Не удалось распознать речь")
+        #     return "Не удалось распознать речь. Попробуйте говорить четче и громче."
+        # except sr.RequestError as e:
+        #     logger.error(f"Ошибка сервиса распознавания речи: {e}")
+        #     return "Ошибка сервиса распознавания речи. Проверьте подключение к интернету."
+        # except Exception as e:
+        #     logger.error(f"Ошибка транскрибации аудио: {e}")
+        #     return f"Ошибка обработки аудио: {str(e)}"
 
 class YandexGPT:
     def __init__(self, api_key: str, folder_id: str):
