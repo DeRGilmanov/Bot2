@@ -1,15 +1,9 @@
 [phases.setup]
 cmds = [
-  "apt-get update",
-  "apt-get install -y ffmpeg",
-  "pip install -r requirements.txt"
+    "apt-get update",
+    "apt-get install -y ffmpeg",
+    "pip install -r requirements.txt"
 ]
-
-[phases.install]
-cmds = ["pip install -r requirements.txt"]
 
 [start]
 cmd = "python app.py"
-
-[[providers]]
-id = "railway"
